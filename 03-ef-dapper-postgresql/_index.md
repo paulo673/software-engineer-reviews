@@ -1,15 +1,15 @@
 # 03 - EF Core, Dapper e PostgreSQL
 
-Acesso a dados em .NET: do change tracking do EF Core ao controle fino de SQL com Dapper, com PostgreSQL como banco de referência.
+Acesso a dados em .NET: do change tracking do EF Core ao controle fino de SQL com Dapper, com PostgreSQL como database de referência.
 
 ## Ordem de leitura sugerida
 
 | # | Tópico | Dificuldade | Descrição |
 | --- | --- | --- | --- |
-| 1 | [SQL essencial](sql-essencial.md) | iniciante | JOINs, agregação, índices e plano de execução |
-| 2 | [Change tracking](change-tracking.md) | intermediario | Como o EF Core rastreia mudanças e impacto em performance |
-| 3 | [Problema N+1](problema-n-mais-1.md) | intermediario | Causa, detecção e correção com eager e split queries |
-| 4 | [Migrations](migrations.md) | intermediario | Versionamento de schema com EF Core |
-| 5 | [Dapper vs EF Core](dapper-vs-ef.md) | intermediario | Micro ORM versus ORM completo, quando usar cada um |
-| 6 | [Índices e JSONB](indices-jsonb.md) | intermediario | Tipos de índice no PostgreSQL e consultas em JSONB |
-| 7 | [Isolamento de transação](isolamento-transacao.md) | avancado | Anomalias, níveis de isolamento e MVCC no PostgreSQL |
+| 1 | [Essential SQL](essential-sql.md) | beginner | JOINs, aggregation, indexes e execution plan |
+| 2 | [Change tracking](change-tracking.md) | intermediate | Como o EF Core rastreia mudanças e impacto em performance |
+| 3 | [N+1 Problem](n-plus-one-problem.md) | intermediate | Causa, detecção e correção com eager e split queries |
+| 4 | [Migrations](migrations.md) | intermediate | Schema versioning com EF Core |
+| 5 | [Dapper vs EF Core](dapper-vs-ef.md) | intermediate | Micro ORM versus ORM completo, quando usar cada um |
+| 6 | [JSONB Indexes](jsonb-indexes.md) | intermediate | Index types no PostgreSQL e queries em JSONB |
+| 7 | [Transaction Isolation](transaction-isolation.md) | advanced | Anomalias, isolation levels e MVCC no PostgreSQL |

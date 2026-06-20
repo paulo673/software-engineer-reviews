@@ -1,15 +1,15 @@
 ---
 id: pipeline-middleware
-title: "Pipeline e Middleware no ASP.NET Core"
+title: "Pipeline and Middleware in ASP.NET Core"
 area: csharp-dotnet
-difficulty: intermediario
+difficulty: intermediate
 prerequisites: [async-await]
 related: [async-await]
 tags: [aspnetcore, middleware, pipeline, http, request]
 sources:
   - "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/"
   - "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write"
-status: revisado
+status: reviewed
 last_updated: 2026-06-20
 ---
 
@@ -23,7 +23,7 @@ O pipeline é construído na inicialização, registrando middlewares na ordem d
 
 Um middleware pode **curto-circuitar**: não chamar `next` e produzir a resposta diretamente. É o que faz, por exemplo, um middleware de arquivos estáticos que encontra o arquivo, ou um de autorização que rejeita com 401/403.
 
-A ordem importa porque cada middleware depende do estado preparado pelos anteriores. Recomendação típica de ordem: tratamento de exceções primeiro (para capturar tudo abaixo), depois HSTS/HTTPS redirection, arquivos estáticos, roteamento, CORS, autenticação, autorização e por fim os endpoints. Autenticação tem que vir antes de autorização, pois autorização decide com base na identidade que a autenticação estabeleceu.
+A ordem importa porque cada middleware depende do estado preparado pelos anteriores. Recomendação típica de ordem: tratamento de exceções primeiro (para capturar tudo abaixo), depois HSTS/HTTPS redirection, arquivos estáticos, routing, CORS, autenticação, autorização e por fim os endpoints. Autenticação tem que vir antes de autorização, pois autorização decide com base na identidade que a autenticação estabeleceu.
 
 `Use` adiciona um middleware que pode chamar o próximo. `Run` adiciona um terminal que nunca chama o próximo. `Map` ramifica o pipeline por caminho.
 
@@ -33,7 +33,7 @@ Cada middleware é, no fundo, uma função `RequestDelegate`, ou seja, `Func<Htt
 
 Há duas formas de escrever middleware: o estilo inline com `app.Use(async (context, next) => { ... })`, e o estilo de classe convencional, com um construtor que recebe o `RequestDelegate next` e um método `InvokeAsync(HttpContext context)`. O middleware de classe é instanciado uma vez (singleton de fato) e o `InvokeAsync` é chamado por requisição, então dependências com escopo de requisição devem ser injetadas como parâmetro de `InvokeAsync`, não no construtor.
 
-Como `next` é aguardado com `await`, todo o pipeline é assíncrono de ponta a ponta (ver [async e await](async-await.md)), o que permite I/O sem bloquear threads.
+Como `next` é aguardado com `await`, todo o pipeline é assíncrono de ponta a ponta (ver [async and await](async-await.md)), o que permite I/O sem bloquear threads.
 
 ## Exemplos em C#
 

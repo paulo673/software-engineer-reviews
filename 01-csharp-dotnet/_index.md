@@ -1,16 +1,18 @@
 # 01 - C# e .NET
 
-Fundamentos da linguagem C# e do runtime .NET, do modelo assíncrono à coleta de lixo. Base para todas as outras áreas.
+Fundamentos da linguagem C# e do runtime .NET, do modelo async à coleta de lixo. Base para todas as outras áreas.
 
 ## Ordem de leitura sugerida
 
 | # | Tópico | Dificuldade | Descrição |
 | --- | --- | --- | --- |
-| 1 | [record, class e struct](record-class-struct.md) | iniciante | Tipos de referência versus valor, igualdade e imutabilidade |
-| 2 | [Generics e variância](generics-variancia.md) | intermediario | Parâmetros de tipo, restrições, covariância e contravariância |
-| 3 | [Pipeline e middleware](pipeline-middleware.md) | intermediario | Pipeline de requisição do ASP.NET Core e ordem dos middlewares |
-| 4 | [Novidades do .NET 8 e C# 12](novidades-dotnet8-csharp12.md) | intermediario | Principais recursos novos da linguagem e da plataforma |
-| 5 | [Garbage Collector](garbage-collector.md) | intermediario | Gerações, heaps, modos do GC e impacto em performance |
-| 6 | [async e await](async-await.md) | avancado | Modelo assíncrono, SynchronizationContext, ConfigureAwait, deadlock |
-| 7 | [Task vs ValueTask](task-vs-valuetask.md) | avancado | Custo de alocação e quando ValueTask compensa |
-| 8 | [IQueryable vs IEnumerable](iqueryable-vs-ienumerable.md) | avancado | Árvore de expressão, deferred execution e onde o filtro roda |
+| 1 | [record, class and struct](record-class-struct.md) | beginner | Reference types versus value types, equality e immutability |
+| 2 | [Generics and Variance](generics-variance.md) | intermediate | Type parameters, constraints, covariance e contravariance |
+| 3 | [Pipeline and Middleware](pipeline-middleware.md) | intermediate | Request pipeline do ASP.NET Core e ordem dos middlewares |
+| 4 | [.NET 8 and C# 12 New Features](dotnet8-csharp12-new-features.md) | intermediate | Principais new features da linguagem e da plataforma |
+| 5 | [Garbage Collector](garbage-collector.md) | intermediate | Generations, heaps, modos do GC e impacto em performance |
+| 6 | [Threads, ThreadPool, Task and async/await](threads-threadpool.md) | advanced | Funcionamento de threads, ThreadPool e relação com Task, ValueTask e await |
+| 7 | [Concurrency, Parallelism and Race Conditions](concurrency-parallelism.md) | advanced | Concurrency vs parallelism, sync vs async, race conditions e synchronization |
+| 8 | [async and await](async-await.md) | advanced | Modelo async, SynchronizationContext, ConfigureAwait, deadlock |
+| 9 | [Task vs ValueTask](task-vs-valuetask.md) | advanced | Custo de allocation e quando a ValueTask compensa |
+| 10 | [IQueryable vs IEnumerable](iqueryable-vs-ienumerable.md) | advanced | Expression tree, deferred execution e onde o filtro roda |

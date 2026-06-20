@@ -2,14 +2,14 @@
 id: dapper-vs-ef
 title: "Dapper vs EF Core"
 area: ef-dapper-postgresql
-difficulty: intermediario
-prerequisites: [change-tracking, sql-essencial]
-related: [change-tracking, problema-n-mais-1, migrations]
+difficulty: intermediate
+prerequisites: [change-tracking, essential-sql]
+related: [change-tracking, n-plus-one-problem, migrations]
 tags: [dapper, ef-core, orm, micro-orm, performance]
 sources:
   - "https://learn.microsoft.com/en-us/ef/core/"
   - "https://github.com/DapperLib/Dapper"
-status: revisado
+status: reviewed
 last_updated: 2026-06-20
 ---
 
@@ -23,7 +23,7 @@ EF Core é um ORM completo: mapeia objetos para tabelas, rastreia mudanças, ger
 
 **Dapper** trabalha no nível do SQL. Você escreve a query, chama um método de extensão sobre a `IDbConnection` (`Query`, `QueryAsync`, `Execute`) e o Dapper mapeia colunas para propriedades por nome. Não há tracking, não há geração de SQL, não há migrations. É essencialmente ADO.NET com mapeamento automático e parametrização, muito próximo do metal e muito rápido.
 
-A divisão prática comum: **EF Core para escrita e domínio** (onde tracking, relacionamentos e migrations agregam), **Dapper para leitura e consultas críticas de performance** (relatórios, listas, queries complexas afinadas à mão). Isso encaixa bem com [CQRS](../02-microsservicos-patterns/cqrs.md): comandos com EF, queries com Dapper.
+A divisão prática comum: **EF Core para escrita e domínio** (onde tracking, relacionamentos e migrations agregam), **Dapper para leitura e consultas críticas de performance** (relatórios, listas, queries complexas afinadas à mão). Isso encaixa bem com [CQRS](../02-microservices-patterns/cqrs.md): comandos com EF, queries com Dapper.
 
 Ambos parametrizam as consultas, prevenindo SQL injection. Em nenhum dos dois você deve concatenar entrada do usuário em string SQL.
 
@@ -73,7 +73,7 @@ public async Task AddItemAsync(int orderId, OrderItem item, CancellationToken ct
 
 ## Tradeoffs
 
-- EF Core entrega produtividade, abstração de banco, migrations e segurança de tipo no LINQ, ao custo de overhead e de SQL gerado que às vezes precisa de ajuste.
+- EF Core entrega produtividade, abstração de database, migrations e segurança de tipo no LINQ, ao custo de overhead e de SQL gerado que às vezes precisa de ajuste.
 - Dapper entrega performance próxima do ADO.NET e controle total do SQL, ao custo de escrever e manter o SQL à mão, sem tracking, migrations ou abstração de relacionamentos.
 - Usar os dois junto combina o melhor: domínio e escrita no EF, leitura crítica no Dapper. O custo é manter duas formas de acesso a dados no projeto.
 - Em consultas simples a diferença de performance raramente importa; ela aparece em alto volume e consultas complexas.
@@ -99,7 +99,7 @@ Use EF Core para o modelo de domínio e a escrita, onde tracking, relacionamento
 2. Por que o Dapper é tão rápido após a primeira execução?
 <details><summary>Resposta</summary>Porque gera e cacheia um delegate de materialização (IL emitido) por shape de consulta, tornando o mapeamento subsequente quase tão rápido quanto código manual.</details>
 
-3. Em uma arquitetura CQRS, como os dois costumam ser divididos?
+3. Em uma architecture CQRS, como os dois costumam ser divididos?
 <details><summary>Resposta</summary>EF Core para os comandos (escrita e domínio, com tracking e relacionamentos) e Dapper para as queries (leitura de alta performance), frequentemente lado a lado.</details>
 
 4. Os dois previnem SQL injection? Como?
