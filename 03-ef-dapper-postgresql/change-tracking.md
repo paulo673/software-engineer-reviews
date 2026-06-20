@@ -1,15 +1,15 @@
 ---
 id: change-tracking
-title: "Change Tracking no EF Core"
+title: "Change Tracking in EF Core"
 area: ef-dapper-postgresql
-difficulty: intermediario
-prerequisites: [sql-essencial]
-related: [problema-n-mais-1, dapper-vs-ef, iqueryable-vs-ienumerable]
+difficulty: intermediate
+prerequisites: [essential-sql]
+related: [n-plus-one-problem, dapper-vs-ef, iqueryable-vs-ienumerable]
 tags: [ef-core, change-tracking, no-tracking, performance, orm]
 sources:
   - "https://learn.microsoft.com/en-us/ef/core/change-tracking/"
   - "https://learn.microsoft.com/en-us/ef/core/querying/tracking"
-status: revisado
+status: reviewed
 last_updated: 2026-06-20
 ---
 
@@ -29,7 +29,7 @@ Quando você consulta entidades com tracking (o padrão), o `DbContext` guarda u
 
 No `SaveChanges`, o EF compara os valores atuais com o snapshot original (snapshot change tracking) para detectar o que mudou e gera apenas os comandos necessários. É isso que permite carregar uma entidade, mudar uma propriedade e chamar `SaveChanges` sem escrever SQL.
 
-**No-tracking**: para consultas que só leem e exibem dados, rastrear é desperdício. `AsNoTracking()` diz ao EF para não guardar snapshot nem referência, o que reduz memória e acelera a materialização. A entidade retornada não é rastreada, então alterá-la não afeta o banco.
+**No-tracking**: para consultas que só leem e exibem dados, rastrear é desperdício. `AsNoTracking()` diz ao EF para não guardar snapshot nem referência, o que reduz memória e acelera a materialização. A entidade retornada não é rastreada, então alterá-la não afeta o database.
 
 **Identity resolution**: com tracking, se a mesma linha (mesma chave) aparece duas vezes na consulta, o EF retorna a mesma instância (resolve a identidade). Com `AsNoTracking` simples, pode retornar instâncias distintas para a mesma linha; existe `AsNoTrackingWithIdentityResolution` quando você precisa de no-tracking mas com instâncias unificadas.
 

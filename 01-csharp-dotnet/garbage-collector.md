@@ -1,26 +1,26 @@
 ---
 id: garbage-collector
-title: "Garbage Collector no .NET"
+title: "Garbage Collector in .NET"
 area: csharp-dotnet
-difficulty: intermediario
+difficulty: intermediate
 prerequisites: [record-class-struct]
 related: [task-vs-valuetask]
-tags: [gc, memoria, gerações, performance, heap]
+tags: [gc, memory, generations, performance, heap]
 sources:
   - "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/fundamentals"
   - "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/workstation-server-gc"
   - "https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/large-object-heap"
-status: revisado
+status: reviewed
 last_updated: 2026-06-20
 ---
 
 ## Resumo
 
-O Garbage Collector (GC) do .NET gerencia automaticamente a memória do heap: aloca objetos e os libera quando não há mais referências vivas a eles. Ele é geracional, dividindo objetos em gerações 0, 1 e 2 para coletar o lixo jovem com frequência e barato, e o velho raramente. Entender o GC importa para evitar pressão de alocação, pausas e vazamentos lógicos (referências que impedem a coleta).
+O Garbage Collector (GC) do .NET gerencia automaticamente a memória do heap: aloca objetos e os libera quando não há mais referências vivas a eles. Ele é geracional, dividindo objetos em generations 0, 1 e 2 para coletar o lixo jovem com frequência e barato, e o velho raramente. Entender o GC importa para evitar pressão de alocação, pausas e vazamentos lógicos (referências que impedem a coleta).
 
 ## Explicação detalhada
 
-O heap gerenciado guarda os tipos de referência. O GC determina quais objetos ainda são alcançáveis a partir de raízes (variáveis locais na stack, campos estáticos, registradores, handles). O que não é alcançável é lixo e pode ser recuperado. Você não chama `delete`: o GC decide quando coletar.
+O heap gerenciado guarda os reference types. O GC determina quais objetos ainda são alcançáveis a partir de raízes (variáveis locais na stack, campos estáticos, registradores, handles). O que não é alcançável é lixo e pode ser recuperado. Você não chama `delete`: o GC decide quando coletar.
 
 **Gerações** existem por uma observação empírica: a maioria dos objetos morre jovem. 
 
@@ -28,7 +28,7 @@ O heap gerenciado guarda os tipos de referência. O GC determina quais objetos a
 - **Geração 1**: objetos que sobreviveram a uma coleta de gen 0. Funciona como um buffer entre o jovem e o velho.
 - **Geração 2**: objetos de vida longa (caches, singletons, dados estáticos). Coletas de gen 2 são caras, pois varrem o heap todo.
 
-Uma coleta de uma geração N coleta também as gerações menores. Coletar gen 2 é uma coleta completa.
+Uma coleta de uma geração N coleta também as generations menores. Coletar gen 2 é uma coleta completa.
 
 **Large Object Heap (LOH)**: objetos com 85.000 bytes ou mais (tipicamente arrays grandes) vão para um heap separado, o LOH, coletado junto com a gen 2. Por padrão o LOH não é compactado (para evitar custo de mover blocos grandes), o que pode causar fragmentação.
 
@@ -39,7 +39,7 @@ Quando um objeto define um finalizador, sua coleta é adiada: ele vai para uma f
 O GC do .NET é do tipo tracing, mark and sweep com compactação. As fases aproximadas:
 
 1. **Mark**: a partir das raízes, marca todos os objetos alcançáveis.
-2. **Sweep/relocate**: o que não foi marcado é lixo. Nas gerações que compactam (gen 0 e 1, e gen 2 quando necessário), os objetos vivos são movidos para juntar o espaço livre, e as referências são atualizadas.
+2. **Sweep/relocate**: o que não foi marcado é lixo. Nas generations que compactam (gen 0 e 1, e gen 2 quando necessário), os objetos vivos são movidos para juntar o espaço livre, e as referências são atualizadas.
 
 Modos de operação:
 
@@ -77,7 +77,7 @@ public class Subscriber
 }
 ```
 
-Enquanto `Publisher` viver, ele referencia `Subscriber` pelo handler, impedindo a coleta. A correção é cancelar a inscrição (`p.Updated -= OnUpdated`) no `Dispose`.
+Enquanto `Publisher` viver, ele reference `Subscriber` pelo handler, impedindo a coleta. A correção é cancelar a inscrição (`p.Updated -= OnUpdated`) no `Dispose`.
 
 Reduzir pressão de alocação reutilizando buffers com pool:
 
@@ -105,7 +105,7 @@ finally
 
 - Chamar `GC.Collect()` manualmente em código de produção: quase sempre piora, atrapalhando a heurística do GC. Use só em cenários muito específicos de diagnóstico.
 - Acreditar que `Dispose` libera memória gerenciada: `Dispose` libera recursos não gerenciados (arquivos, conexões); a memória do objeto só é recuperada pelo GC.
-- Vazamentos lógicos: coleções estáticas que crescem, eventos não desinscritos, caches sem limite. O objeto é alcançável, então o GC não o coleta.
+- Vazamentos lógicos: coleções estáticas que crescem, events não desinscritos, caches sem limite. O objeto é alcançável, então o GC não o coleta.
 - Alocar muitos objetos de vida curta em hot path: enche a gen 0 e dispara coletas frequentes. Considere structs, pooling ou `Span<T>`.
 - Objetos grandes (85 KB ou mais) indo para o LOH e fragmentando-o.
 - Confiar em finalizador para liberar recurso crítico de forma oportuna: pode demorar.
